@@ -26,9 +26,9 @@ const judgeDef = document.querySelector("#judge-definition");
 function select(choice) {
     valid = curWord in dict;
     correct = choice === valid;
-        judgeCorrectness.textContent = (correct ? "Correct: " : "Incorrect: ")
-                + curWord
-                + (valid ? " is a valid word!" : " is not a valid word!");
+    judgeCorrectness.textContent = (correct ? "Correct: " : "Incorrect: ")
+        + curWord
+        + (valid ? " is a valid word!" : " is not a valid word!");
     judgeCorrectness.style.color = (correct ? "green" : "red");
     if (DEBUG) {
         console.log("choice: " + choice);
@@ -53,7 +53,7 @@ function select(choice) {
 function parseDict(raw) {
     result = {};
     lines = raw.split("\n");
-    if (lines[0].indexOf("\t") != -1) {
+    if (lines[0].includes("\t")) {
         // Dictionary contains definitions
         hasDef = true;
         for (line of lines) {
@@ -109,41 +109,96 @@ function nextQuiz() {
     const validWord = keys[idx];
     if (Math.random() > validProb) {
         // get valid word
-        console.log("valid");
-        console.log(validWord);
+        if (DEBUG) {
+            console.log("valid");
+            console.log(validWord);
+        }
         curWord = validWord;
     } else {
         // get invalid word
-        console.log("invalid");
         let invalidWord = "";
         do {
-            invalidWord = getInvalidWord(validWord, mode = "random");
+            invalidWord = getInvalidWord(validWord, mode = "single");
         } while (invalidWord in dict);
+        if (DEBUG) {
+            console.log("invalid");
+            console.log("valid word is: " + validWord);
+            console.log(invalidWord);
+        }
         curWord = invalidWord;
     }
     wordDOM.textContent = curWord;
 }
 
 /**
- * Generates a random capital letter from the English alphabet.
+ * Generates a random capitalized letter from the English alphabet.
  */
 function getRandomLetter() {
     return letters[Math.floor(Math.random() * letters.length)];
 }
 
 /**
+ * Generates a random capitalized vowel from the English alphabet.
+ */
+function getRandomVowel() {
+    return vowels[Math.floor(Math.random() * vowels.length)];
+}
+
+/**
+ * Generates a random capitalized consonant from the English alphabet.
+ */
+function getRandomConsonant() {
+    return consonants[Math.floor(Math.random() * consonants.length)];
+}
+
+/**
  * Generate a (potentially) invalid word for the given mode
  * with the valid word as a reference.
+ * Supported modes:
+ * - random: Pick a random valid word, and generate a random word
+ * with the same number of characters.
+ * - random-vc: Pick a random valid word, and generate a random word
+ * with the same number of characters; if the ith letter of the valid word
+ * is a vowel, then so is the ith letter of the random word.
+ * The same goes for consonants.
+ * - single: Changes a single letter of the valid word to a random letter.
+ * - single-vc: Changes a single letter of the valid word to a random letter,
+ * where the letter is changed from a vowel to a vowel
+ * or from a constant to a consonant.
  * @param {string} validWord 
  */
 function getInvalidWord(validWord, mode) {
+    const len = validWord.length;
+    let s = "";
+    let idx;
     switch (mode) {
         case "random":
-            const len = validWord.length;
-            let s = "";
             for (let i = 0; i < len; i++) {
                 s += getRandomLetter();
             }
+            return s;
+        case "random-vc":
+            for (let i = 0; i < len; i++) {
+                if (vowels.includes(validWord[i])) {
+                    s += getRandomVowel();
+                } else {
+                    s += getRandomConsonant();
+                }
+            }
+            return s;
+        case "single":
+            idx = Math.floor(Math.random() * len);
+            s = validWord.substring(0, idx) + getRandomLetter() + validWord.substring(idx + 1);
+            return s;
+        case "single-vc":
+            idx = Math.floor(Math.random() * len);
+            let randLetter = "";
+            if (vowels.includes(validWord[idx])) {
+                randLetter = getRandomVowel();
+            } else {
+                randLetter = getRandomConsonant();
+            }
+            s = validWord.substring(0, idx) + randLetter + validWord.substring(idx + 1);
             return s;
         default:
             throw new Error("Unknown mode for generating a potential phoney!")
