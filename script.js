@@ -38,6 +38,8 @@ function select(choice) {
     }
     if (hasDef && valid) {
         judgeDef.textContent = "Definition: " + dict[curWord];
+    } else {
+        judgeDef.textContent = "";
     }
 }
 
@@ -56,15 +58,17 @@ function parseDict(raw) {
         hasDef = true;
         for (line of lines) {
             wordDef = line.split("\t");
-            result[wordDef[0]] = wordDef[1];
+            result[wordDef[0].trim()] = wordDef[1];
         }
     } else {
         hasDef = false;
         for (line of lines) {
-            result[line] = "";
+            result[line.trim()] = "";
         }
     }
-    console.log(result);
+    if (DEBUG) {
+        console.log(result);
+    }
     return result;
 }
 
