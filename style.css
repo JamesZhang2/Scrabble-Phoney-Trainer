@@ -1,0 +1,96 @@
+body {
+    background-color: #eeeeff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header p {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.dict-select {
+    font-size: 24px;
+}
+
+#dict-input {
+    font-size: 18px;
+}
+
+#dict-input::file-selector-button {
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px 30px;
+    margin-right: 10px;
+}
+
+#dict-input::file-selector-button:hover,
+#dict-confirm-btn:hover {
+    background-color: #e6e6e6;
+    transform: 0.1s;
+    cursor: pointer;
+}
+
+#dict-confirm-btn {
+    border: 1px solid gray;
+    font-size: 18px;
+    border-radius: 10px;
+    padding: 10px 30px;
+}
+
+.quiz {
+    text-align: center;
+    display: none;
+}
+
+#word {
+    font-size: 60px;
+}
+
+.choices {
+    display: flex;
+}
+
+.choices button,
+.next button {
+    border: 1px solid gray;
+    flex: 1;
+    margin: 10px 100px;
+    padding: 20px;
+    font-size: 36px;
+    border-radius: 20px;
+}
+
+.choices button {
+    cursor: pointer;
+}
+
+#yes-btn:hover {
+    background-color: #c0e0c0;
+    transition: 0.1s;
+}
+
+#no-btn:hover {
+    background-color: #e0c0c0;
+    transition: 0.1s;
+}
+
+.judge {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.next {
+    text-align: center;
+}
+
+#next-btn {
+    padding: 20px 100px
+}
+
+#next-btn:hover {
+    background-color: #e0e0e0;
+    transition: 0.1s;
+    cursor: pointer;
+}
