@@ -1,45 +1,93 @@
-let dict = {};
-let hasDef = false;
-let validProb = 0.5;
 const DEBUG = true;
 const vowels = "AEIOU";
 const consonants = "BCDFGHJKLMNPQRSTVWXYZ";
 const letters = vowels + consonants;
+let dict = {};
+let hasDef = false;
+let validProb = 0.5;
 
+let true_pos = 0, true_neg = 0, false_pos = 0, false_neg = 0;
 let curWord = "";
+
+// Buttons and event listeners
 
 const yesBtn = document.querySelector("#yes-btn");
 const noBtn = document.querySelector("#no-btn");
+const dictConfirmBtn = document.querySelector("#dict-confirm-btn");
+const nextBtn = document.querySelector("#next-btn");
 yesBtn.addEventListener("click", () => select(true));
 noBtn.addEventListener("click", () => select(false));
-
-const dictConfirmBtn = document.querySelector("#dict-confirm-btn");
 dictConfirmBtn.addEventListener("click", () => readDict());
-
-const nextBtn = document.querySelector("#next-btn");
 nextBtn.addEventListener("click", () => nextQuiz());
 
 const wordDOM = document.querySelector("#word");
 const judgeCorrectness = document.querySelector("#judge-correctness");
 const judgeDef = document.querySelector("#judge-definition");
 
+/**
+ * Handles player's selection of "YES" or "NO".
+ * @param {boolean} choice 
+ */
 function select(choice) {
     valid = curWord in dict;
     correct = choice === valid;
-    judgeCorrectness.textContent = (correct ? "Correct: " : "Incorrect: ")
-        + curWord
-        + (valid ? " is a valid word!" : " is not a valid word!");
-    judgeCorrectness.style.color = (correct ? "green" : "red");
+
     if (DEBUG) {
         console.log("choice: " + choice);
         console.log("hasDef: " + hasDef);
         console.log("valid: " + valid);
         console.log("dict[curWord]: " + dict[curWord]);
     }
+
+    // Update stats
+    if (valid && choice) {
+        true_pos++;
+    } else if (!valid && choice) {
+        false_pos++;
+    } else if (valid && !choice) {
+        false_neg++;
+    } else if (!valid && !choice) {
+        true_neg++;
+    }
+
+    // Update UI
+    judgeCorrectness.textContent = (correct ? "Correct: " : "Incorrect: ")
+        + curWord
+        + (valid ? " is a valid word!" : " is not a valid word!");
+    judgeCorrectness.style.color = (correct ? "green" : "red");
     if (hasDef && valid) {
         judgeDef.textContent = "Definition: " + dict[curWord];
+        judgeDef.display = "bock";
     } else {
         judgeDef.textContent = "";
+        judgeDef.display = "none";
+    }
+    yesBtn.disabled = true;
+    noBtn.disabled = true;
+    nextBtn.disabled = false;
+}
+
+/**
+ * Read the dictionary file given by the user.
+ */
+function readDict() {
+    const dictInput = document.querySelector("#dict-input");
+    if ("files" in dictInput && dictInput.files.length > 0) {
+        const dictFile = dictInput.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            dict = parseDict(reader.result.trim());
+            nextQuiz();
+        };
+        reader.readAsText(dictFile);
+
+        // Show quiz div, hide dict-select div
+        const quiz = document.querySelector(".quiz");
+        quiz.style.display = "block";
+        const dictSelect = document.querySelector(".dict-select");
+        dictSelect.style.display = "none";
+    } else {
+        alert("Please select a valid dictionary file.")
     }
 }
 
@@ -73,39 +121,14 @@ function parseDict(raw) {
 }
 
 /**
- * Read the dictionary file given by the user.
- */
-function readDict() {
-    const dictInput = document.querySelector("#dict-input");
-    if ("files" in dictInput && dictInput.files.length > 0) {
-        const dictFile = dictInput.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            dict = parseDict(reader.result.trim());
-            nextQuiz();
-        };
-        reader.readAsText(dictFile);
-
-        // Show quiz div, hide dict-select div
-        const quiz = document.querySelector(".quiz");
-        quiz.style.display = "block";
-        const dictSelect = document.querySelector(".dict-select");
-        console.log(dictSelect);
-        dictSelect.style.display = "none";
-    } else {
-        alert("Please select a valid dictionary file.")
-    }
-}
-
-/**
  * Start the next quiz.
  */
 function nextQuiz() {
-    console.log("Starting next quiz");
+    if (DEBUG) {
+        console.log("Starting next quiz");
+    }
     const idx = Math.floor(Math.random() * Object.keys(dict).length);
-    console.log(dict);
     const keys = Object.keys(dict);
-    console.log(keys);
     const validWord = keys[idx];
     if (Math.random() > validProb) {
         // get valid word
@@ -118,7 +141,7 @@ function nextQuiz() {
         // get invalid word
         let invalidWord = "";
         do {
-            invalidWord = getInvalidWord(validWord, mode = "single");
+            invalidWord = getInvalidWord(validWord, mode = "random-vc");
         } while (invalidWord in dict);
         if (DEBUG) {
             console.log("invalid");
@@ -128,6 +151,9 @@ function nextQuiz() {
         curWord = invalidWord;
     }
     wordDOM.textContent = curWord;
+    yesBtn.disabled = false;
+    noBtn.disabled = false;
+    nextBtn.disabled = true;
 }
 
 /**

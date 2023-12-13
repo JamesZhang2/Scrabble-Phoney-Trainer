@@ -9,31 +9,75 @@
 </head>
 
 <body>
-    <header>
-        <p>Scrabble Phoney Trainer</p>
-    </header>
-    <div class="dict-select">
-        <p>Select your dictionary file:</p>
-        <input type="file" id="dict-input"/>
-        <button id="dict-confirm-btn">Confirm</button>
-        <pre id="file-contents"></pre>
+    <div class="flex-container">
+        <header>
+            <p>Scrabble Phoney Trainer</p>
+        </header>
+
+        <main>
+            <div class="dict-select">
+                <p>Select your dictionary file:</p>
+                <input type="file" id="dict-input" />
+                <button id="dict-confirm-btn">Confirm</button>
+                <pre id="file-contents"></pre>
+            </div>
+
+            <div class="quiz">
+                <h1 class="question">Is this a valid word?</h1>
+                <h1 id="word">WORD</h1>
+                <div class="choices">
+                    <button id="yes-btn">YES</button>
+                    <button id="no-btn">NO</button>
+                </div>
+                <div class="judge">
+                    <p id="judge-correctness"></p>
+                    <p id="judge-definition"></p>
+                </div>
+                <div class="next">
+                    <button id="next-btn">Next</button>
+                </div>
+            </div>
+
+            <div class="settings-stats">
+                <div class="settings">
+                    <button id="settings-btn">Settings</button>
+                </div>
+                <div class="stats">
+                    <table class="stats-table">
+                        <tr>
+                            <td></td>
+                            <th>Correct</th>
+                            <th>Incorrect</th>
+                            <th>Total</th>
+                        </tr>
+                        <tr>
+                            <th>Valid</th>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th>Invalid</th>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th>Total</th>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <a href="https://github.com/JamesZhang2/Scrabble-Phoney-Trainer">Open this project on GitHub</a>
+        </footer>
     </div>
-    <div class="quiz">
-        <h1 class="question">Is this a valid word?</h1>
-        <h1 id="word">WORD</h1>
-        <div class="choices">
-            <button id="yes-btn">YES</button>
-            <button id="no-btn">NO</button>
-        </div>
-        <div class="judge">
-            <p id="judge-correctness"></p>
-            <p id="judge-definition"></p>
-        </div>
-        <div class="next">
-            <button id="next-btn">Next</button>
-        </div>
-    </div>
-    
+
     <script src="script.js"></script>
 </body>
 

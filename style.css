@@ -1,12 +1,44 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: #eeeeff;
     font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+p, h1 {
+    margin: 0px;
+}
+
+.question {
+    margin: 20px 0px;
+}
+
+#word {
+    margin: 30px 0px;
+}
+
+header {
+    margin: 30px 0px;
 }
 
 header p {
     font-size: 36px;
     font-weight: bold;
     text-align: center;
+}
+
+main {
+    padding: 0px 20px;
+    margin-bottom: 30px;
 }
 
 .dict-select {
@@ -17,30 +49,31 @@ header p {
     font-size: 18px;
 }
 
-#dict-input::file-selector-button {
+#dict-input::file-selector-button,
+#dict-confirm-btn,
+#settings-btn {
     border: 1px solid gray;
     border-radius: 10px;
+    font-size: 18px;
     padding: 10px 30px;
+}
+
+#dict-input::file-selector-button {
     margin-right: 10px;
 }
 
 #dict-input::file-selector-button:hover,
-#dict-confirm-btn:hover {
+#dict-confirm-btn:hover,
+#settings-btn:hover {
     background-color: #e6e6e6;
     transform: 0.1s;
     cursor: pointer;
 }
 
-#dict-confirm-btn {
-    border: 1px solid gray;
-    font-size: 18px;
-    border-radius: 10px;
-    padding: 10px 30px;
-}
-
 .quiz {
     text-align: center;
     display: none;
+    margin-bottom: 30px;
 }
 
 #word {
@@ -52,10 +85,10 @@ header p {
 }
 
 .choices button,
-.next button {
+#next-btn {
     border: 1px solid gray;
     flex: 1;
-    margin: 10px 100px;
+    margin: 0px 100px;
     padding: 20px;
     font-size: 36px;
     border-radius: 20px;
@@ -81,6 +114,10 @@ header p {
     font-size: 20px;
 }
 
+#judge-definition {
+    margin-top: 15px;
+}
+
 .next {
     text-align: center;
 }
@@ -93,4 +130,55 @@ header p {
     background-color: #e0e0e0;
     transition: 0.1s;
     cursor: pointer;
+}
+
+#next-btn:disabled:hover,
+#yes-btn:disabled:hover,
+#no-btn:disabled:hover {
+    cursor: default;
+    background-color: #e0e0e0;
+}
+
+.settings-stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.settings,
+.stats {
+    flex: 1
+}
+
+.stats-table {
+    float: right;
+    margin-right: 20px;
+    border-collapse: collapse;
+}
+
+.stats-table,
+.stats-table th,
+.stats-table td {
+    border: 1px solid;
+    font-size: 18px;
+}
+
+.stats-table th {
+    padding: 5px;
+}
+
+.stats-table td {
+    text-align: center;
+}
+
+footer {
+    background-color: #e0e0f0;
+    margin-top: auto;
+    font-size: 18px;
+    text-align: center;
+    padding: 20px 0px;
+}
+
+footer a {
+    text-decoration: none;
 }
