@@ -5,8 +5,12 @@ const letters = vowels + consonants;
 let dict = {};
 let hasDef = false;
 let validProb = 0.5;
+let mode = "single-vc";
+let reviewProb = 0.3;
 
 let truePos = 0, trueNeg = 0, falsePos = 0, falseNeg = 0;
+let falsePosWords = [];
+let falseNegWords = [];
 let curWord = "";
 
 // Buttons and event listeners
@@ -99,8 +103,10 @@ function select(choice) {
         truePos++;
     } else if (!valid && choice) {
         falsePos++;
+        falsePosWords.push(curWord);
     } else if (valid && !choice) {
         falseNeg++;
+        falseNegWords.push(curWord);
     } else if (!valid && !choice) {
         trueNeg++;
     }
@@ -147,6 +153,11 @@ function updateStatsUI() {
 
 /**
  * Start the next quiz.
+ * Generates a valid word with probability validProb.
+ * Reviews a word with probability reviewProb if the corresponding
+ * (invalid: false positive, valid: false negative) list is nonempty,
+ * and the word is drawn with probability proportional to the number
+ * of times it is answered incorrectly. 
  */
 function nextQuiz() {
     if (DEBUG) {
@@ -154,24 +165,35 @@ function nextQuiz() {
     }
     const idx = Math.floor(Math.random() * Object.keys(dict).length);
     const keys = Object.keys(dict);
-    const validWord = keys[idx];
-    if (Math.random() > validProb) {
+    let validWord = keys[idx];
+    if (Math.random() < validProb) {
         // get valid word
+        if (Math.random() < reviewProb && falseNeg > 0) {
+            if (DEBUG) {
+                console.log("Review valid word");
+            }
+            validWord = falseNegWords[Math.floor(Math.random() * falseNeg)]
+        }
         if (DEBUG) {
-            console.log("valid");
-            console.log(validWord);
+            console.log("valid: " + validWord);
         }
         curWord = validWord;
     } else {
         // get invalid word
         let invalidWord = "";
-        do {
-            invalidWord = getInvalidWord(validWord, mode = "single-vc");
-        } while (invalidWord in dict);
+        if (Math.random() < reviewProb && falsePos > 0) {
+            if (DEBUG) {
+                console.log("Review invalid word");
+            }
+            invalidWord = falsePosWords[Math.floor(Math.random() * falsePos)]
+        } else {
+            do {
+                invalidWord = getInvalidWord(validWord);
+            } while (invalidWord in dict);
+        }
         if (DEBUG) {
-            console.log("invalid");
+            console.log("invalid: " + invalidWord);
             console.log("valid word is: " + validWord);
-            console.log(invalidWord);
         }
         curWord = invalidWord;
     }
@@ -205,6 +227,7 @@ function getRandomConsonant() {
 /**
  * Generate a (potentially) invalid word for the given mode
  * with the valid word as a reference.
+ * 
  * Supported modes:
  * - random: Pick a random valid word, and generate a random word
  * with the same number of characters.
@@ -216,9 +239,10 @@ function getRandomConsonant() {
  * - single-vc: Changes a single letter of the valid word to a random letter,
  * where the letter is changed from a vowel to a vowel
  * or from a constant to a consonant.
+ * 
  * @param {string} validWord 
  */
-function getInvalidWord(validWord, mode) {
+function getInvalidWord(validWord) {
     const len = validWord.length;
     let s = "";
     let idx;
