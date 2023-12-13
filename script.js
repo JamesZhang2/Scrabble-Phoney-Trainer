@@ -3,10 +3,11 @@ const vowels = "AEIOU";
 const consonants = "BCDFGHJKLMNPQRSTVWXYZ";
 const letters = vowels + consonants;
 let dict = {};
-let hasDef = false;
+let hasDef = false;  // whether the dictionary contains definitions
 let validProb = 0.5;
-let mode = "single-vc";
+let mode = "single-vc";  // mode for generating phonies
 let reviewProb = 0.3;
+let showSettings = false;
 
 let truePos = 0, trueNeg = 0, falsePos = 0, falseNeg = 0;
 let falsePosWords = [];
@@ -19,10 +20,12 @@ const dictConfirmBtn = document.querySelector("#dict-confirm-btn");
 const yesBtn = document.querySelector("#yes-btn");
 const noBtn = document.querySelector("#no-btn");
 const nextBtn = document.querySelector("#next-btn");
+const settingsBtn = document.querySelector("#settings-btn");
 dictConfirmBtn.addEventListener("click", () => readDict());
 yesBtn.addEventListener("click", () => select(true));
 noBtn.addEventListener("click", () => select(false));
 nextBtn.addEventListener("click", () => nextQuiz());
+settingsBtn.addEventListener("click", () => toggleSettings());
 
 const wordDOM = document.querySelector("#word");
 const judgeCorrectness = document.querySelector("#judge-correctness");
@@ -118,10 +121,10 @@ function select(choice) {
     judgeCorrectness.style.color = (correct ? "green" : "red");
     if (hasDef && valid) {
         judgeDef.textContent = "Definition: " + dict[curWord];
-        judgeDef.display = "bock";
+        judgeDef.style.display = "block";
     } else {
         judgeDef.textContent = "";
-        judgeDef.display = "none";
+        judgeDef.style.display = "none";
     }
     updateStatsUI();
     yesBtn.disabled = true;
@@ -225,7 +228,7 @@ function getRandomConsonant() {
 }
 
 /**
- * Generate a (potentially) invalid word for the given mode
+ * Generate a potentially invalid word for the given mode
  * with the valid word as a reference.
  * 
  * Supported modes:
@@ -277,5 +280,18 @@ function getInvalidWord(validWord) {
             return s;
         default:
             throw new Error("Unknown mode for generating a potential phoney!")
+    }
+}
+
+function toggleSettings() {
+    const settingsMenu = document.querySelector("#settings-menu");
+    if (showSettings) {
+        showSettings = false;
+        settingsBtn.textContent = "Show Settings";
+        settingsMenu.style.display = "none";
+    } else {
+        showSettings = true;
+        settingsBtn.textContent = "Hide Settings";
+        settingsMenu.style.display = "block";
     }
 }

@@ -51,8 +51,7 @@ main {
 }
 
 #dict-input::file-selector-button,
-#dict-confirm-btn,
-#settings-btn {
+#dict-confirm-btn {
     border: 1px solid gray;
     border-radius: 10px;
     font-size: 18px;
@@ -146,13 +145,29 @@ main {
     justify-content: space-between;
 }
 
-.settings,
-.stats {
-    flex: 1
+.settings {
+    flex: auto;
+    flex-direction: row;
+    align-items: flex-start;
+    display: flex;
+}
+
+#settings-btn {
+    border: 1px solid gray;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 10px 20px;
+    width: 160px;
+}
+
+#settings-menu {
+    padding: 10px;
+    font-size: 16px;
+    display: none;
+    flex: 1;
 }
 
 .stats-table {
-    float: right;
     margin-right: 20px;
     border-collapse: collapse;
 }
