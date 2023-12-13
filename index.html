@@ -16,7 +16,7 @@
 
         <main>
             <div class="dict-select">
-                <p>Select your dictionary file:</p>
+                <p class="dict-select-prompt">Select your dictionary file:</p>
                 <input type="file" id="dict-input" />
                 <button id="dict-confirm-btn">Confirm</button>
                 <pre id="file-contents"></pre>
@@ -48,25 +48,21 @@
                             <td></td>
                             <th>Correct</th>
                             <th>Incorrect</th>
-                            <th>Total</th>
                         </tr>
                         <tr>
                             <th>Valid</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td id="true-pos">0</td>
+                            <td id="false-neg">0</td>
                         </tr>
                         <tr>
                             <th>Invalid</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td id="true-neg">0</td>
+                            <td id="false-pos">0</td>
                         </tr>
                         <tr>
                             <th>Total</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td id="total-correct">0</td>
+                            <td id="total-incorrect">0</td>
                         </tr>
                     </table>
                 </div>

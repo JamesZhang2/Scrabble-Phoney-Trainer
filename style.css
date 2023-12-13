@@ -41,8 +41,9 @@ main {
     margin-bottom: 30px;
 }
 
-.dict-select {
-    font-size: 24px;
+.dict-select-prompt {
+    font-size: 18px;
+    padding: 10px 0px;
 }
 
 #dict-input {
@@ -140,7 +141,7 @@ main {
 }
 
 .settings-stats {
-    display: flex;
+    display: none;  /* will be set to flex */
     flex-direction: row;
     justify-content: space-between;
 }
@@ -169,6 +170,16 @@ main {
 
 .stats-table td {
     text-align: center;
+}
+
+#total-correct {
+    color: green;
+    border-color: black;
+}
+
+#total-incorrect {
+    color: red;
+    border-color: black;
 }
 
 footer {

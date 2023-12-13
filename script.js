@@ -6,66 +6,23 @@ let dict = {};
 let hasDef = false;
 let validProb = 0.5;
 
-let true_pos = 0, true_neg = 0, false_pos = 0, false_neg = 0;
+let truePos = 0, trueNeg = 0, falsePos = 0, falseNeg = 0;
 let curWord = "";
 
 // Buttons and event listeners
 
+const dictConfirmBtn = document.querySelector("#dict-confirm-btn");
 const yesBtn = document.querySelector("#yes-btn");
 const noBtn = document.querySelector("#no-btn");
-const dictConfirmBtn = document.querySelector("#dict-confirm-btn");
 const nextBtn = document.querySelector("#next-btn");
+dictConfirmBtn.addEventListener("click", () => readDict());
 yesBtn.addEventListener("click", () => select(true));
 noBtn.addEventListener("click", () => select(false));
-dictConfirmBtn.addEventListener("click", () => readDict());
 nextBtn.addEventListener("click", () => nextQuiz());
 
 const wordDOM = document.querySelector("#word");
 const judgeCorrectness = document.querySelector("#judge-correctness");
 const judgeDef = document.querySelector("#judge-definition");
-
-/**
- * Handles player's selection of "YES" or "NO".
- * @param {boolean} choice 
- */
-function select(choice) {
-    valid = curWord in dict;
-    correct = choice === valid;
-
-    if (DEBUG) {
-        console.log("choice: " + choice);
-        console.log("hasDef: " + hasDef);
-        console.log("valid: " + valid);
-        console.log("dict[curWord]: " + dict[curWord]);
-    }
-
-    // Update stats
-    if (valid && choice) {
-        true_pos++;
-    } else if (!valid && choice) {
-        false_pos++;
-    } else if (valid && !choice) {
-        false_neg++;
-    } else if (!valid && !choice) {
-        true_neg++;
-    }
-
-    // Update UI
-    judgeCorrectness.textContent = (correct ? "Correct: " : "Incorrect: ")
-        + curWord
-        + (valid ? " is a valid word!" : " is not a valid word!");
-    judgeCorrectness.style.color = (correct ? "green" : "red");
-    if (hasDef && valid) {
-        judgeDef.textContent = "Definition: " + dict[curWord];
-        judgeDef.display = "bock";
-    } else {
-        judgeDef.textContent = "";
-        judgeDef.display = "none";
-    }
-    yesBtn.disabled = true;
-    noBtn.disabled = true;
-    nextBtn.disabled = false;
-}
 
 /**
  * Read the dictionary file given by the user.
@@ -81,9 +38,11 @@ function readDict() {
         };
         reader.readAsText(dictFile);
 
-        // Show quiz div, hide dict-select div
+        // Show quiz and settings-stats div, hide dict-select div
         const quiz = document.querySelector(".quiz");
         quiz.style.display = "block";
+        const settingStats = document.querySelector(".settings-stats");
+        settingStats.style.display = "flex";
         const dictSelect = document.querySelector(".dict-select");
         dictSelect.style.display = "none";
     } else {
@@ -121,6 +80,72 @@ function parseDict(raw) {
 }
 
 /**
+ * Handles player's selection of "YES" or "NO".
+ * @param {boolean} choice 
+ */
+function select(choice) {
+    valid = curWord in dict;
+    correct = choice === valid;
+
+    if (DEBUG) {
+        console.log("choice: " + choice);
+        console.log("hasDef: " + hasDef);
+        console.log("valid: " + valid);
+        console.log("dict[curWord]: " + dict[curWord]);
+    }
+
+    // Update stats
+    if (valid && choice) {
+        truePos++;
+    } else if (!valid && choice) {
+        falsePos++;
+    } else if (valid && !choice) {
+        falseNeg++;
+    } else if (!valid && !choice) {
+        trueNeg++;
+    }
+
+    // Update UI
+    judgeCorrectness.textContent = (correct ? "Correct: " : "Incorrect: ")
+        + curWord
+        + (valid ? " is a valid word!" : " is not a valid word!");
+    judgeCorrectness.style.color = (correct ? "green" : "red");
+    if (hasDef && valid) {
+        judgeDef.textContent = "Definition: " + dict[curWord];
+        judgeDef.display = "bock";
+    } else {
+        judgeDef.textContent = "";
+        judgeDef.display = "none";
+    }
+    updateStatsUI();
+    yesBtn.disabled = true;
+    noBtn.disabled = true;
+    nextBtn.disabled = false;
+}
+
+/**
+ * Update the stats table to display the current stats
+ */
+function updateStatsUI() {
+    const truePosCell = document.querySelector("#true-pos");
+    const trueNegCell = document.querySelector("#true-neg");
+    const falsePosCell = document.querySelector("#false-pos");
+    const falseNegCell = document.querySelector("#false-neg");
+    const totalCorrectCell = document.querySelector("#total-correct");
+    const totalIncorrectCell = document.querySelector("#total-incorrect");
+    truePosCell.textContent = truePos;
+    trueNegCell.textContent = trueNeg;
+    falsePosCell.textContent = falsePos;
+    falseNegCell.textContent = falseNeg;
+    let total = truePos + trueNeg + falsePos + falseNeg;
+    let correct = truePos + trueNeg;
+    let incorrect = falsePos + falseNeg;
+    totalCorrectCell.textContent = correct + " (" + Math.round(correct / total * 100) + "%)";
+    totalIncorrectCell.textContent = incorrect + " (" + Math.round(incorrect / total * 100) + "%)";
+
+}
+
+/**
  * Start the next quiz.
  */
 function nextQuiz() {
@@ -141,7 +166,7 @@ function nextQuiz() {
         // get invalid word
         let invalidWord = "";
         do {
-            invalidWord = getInvalidWord(validWord, mode = "random-vc");
+            invalidWord = getInvalidWord(validWord, mode = "single-vc");
         } while (invalidWord in dict);
         if (DEBUG) {
             console.log("invalid");
