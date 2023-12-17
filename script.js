@@ -31,6 +31,8 @@ const wordDOM = document.querySelector("#word");
 const judgeCorrectness = document.querySelector("#judge-correctness");
 const judgeDef = document.querySelector("#judge-definition");
 
+document.addEventListener("keydown", handleKeyDown);
+
 /**
  * Read the dictionary file given by the user.
  */
@@ -120,6 +122,12 @@ function select(choice) {
     }
 
     // Update UI
+    // Hide shortcut hints after first choice
+    shortcutHints = document.querySelectorAll(".shortcut-hint");
+    for (hint of shortcutHints) {
+        hint.style.display = "none";
+    }
+    // Update judge
     judgeCorrectness.textContent = (correct ? "Correct: " : "Incorrect: ")
         + curWord
         + (valid ? " is a valid word!" : " is not a valid word!");
@@ -132,6 +140,7 @@ function select(choice) {
         judgeDef.style.display = "none";
     }
     updateStatsUI();
+    // Toggle buttons
     yesBtn.disabled = true;
     noBtn.disabled = true;
     nextBtn.disabled = false;
@@ -288,6 +297,9 @@ function getInvalidWord(validWord) {
     }
 }
 
+/**
+ * Toggles showing or hiding the settings menu. 
+ */
 function toggleSettings() {
     const settingsMenu = document.querySelector("#settings-menu");
     if (showSettings) {
@@ -298,5 +310,23 @@ function toggleSettings() {
         showSettings = true;
         settingsBtn.textContent = "Hide Settings";
         settingsMenu.style.display = "block";
+    }
+}
+
+/**
+ * Handles key presses (shortcuts for selecting yes/no and going to the next question)
+ * @param {*} event 
+ */
+function handleKeyDown(event) {
+    const quiz = document.querySelector(".quiz");
+    if (quiz.style.display !== "none") {
+        if (event.code === "ArrowLeft") {
+            select(true);
+        } else if (event.code === "ArrowRight") {
+            select(false);
+        } else if (event.code === "ArrowDown" || event.code === "Space") {
+            event.preventDefault()  // Prevents scrolling down
+            nextQuiz();
+        }
     }
 }

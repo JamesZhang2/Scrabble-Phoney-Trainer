@@ -28,7 +28,8 @@
                             To use a dictionary file with just words and no definitions, put one word on every line.
                         </li>
                         <li>
-                            To use a dictionary file with both words and definitions, put one word-definition pair on every
+                            To use a dictionary file with both words and definitions, put one word-definition pair on
+                            every
                             line, where the word and the definition are separated by a tab.
                         </li>
                         <li>
@@ -44,8 +45,14 @@
                 <h1 class="question">Is this a valid word?</h1>
                 <h1 id="word">WORD</h1>
                 <div class="choices">
-                    <button id="yes-btn">YES</button>
-                    <button id="no-btn">NO</button>
+                    <div class="choice-container">
+                        <button id="yes-btn">YES</button>
+                        <p class="shortcut-hint">(Left Arrow)</p>
+                    </div>
+                    <div class="choice-container">
+                        <button id="no-btn">NO</button>
+                        <p class="shortcut-hint">(Right Arrow)</p>
+                    </div>
                 </div>
                 <div class="judge">
                     <p id="judge-correctness"></p>
@@ -53,6 +60,7 @@
                 </div>
                 <div class="next">
                     <button id="next-btn">Next</button>
+                    <p class="shortcut-hint">(Down Arrow or Space Bar)</p>
                 </div>
             </div>
 
