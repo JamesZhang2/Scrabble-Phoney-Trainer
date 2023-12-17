@@ -5,7 +5,7 @@
 body {
     background-color: #eeeeff;
     font-family: Arial, Helvetica, sans-serif;
-    margin: 0px;
+    margin: 0;
 }
 
 .flex-container {
@@ -15,30 +15,26 @@ body {
 }
 
 p, h1 {
-    margin: 0px;
+    margin: 0;
 }
 
 .question {
-    margin: 20px 0px;
-}
-
-#word {
-    margin: 30px 0px;
+    margin: 1rem 0;
 }
 
 header {
-    margin: 30px 0px;
+    margin: 2rem 0 1rem 0;
 }
 
 header p {
-    font-size: 36px;
+    font-size: 2.25rem;
     font-weight: bold;
     text-align: center;
 }
 
 main {
-    padding: 0px 20px;
-    margin-bottom: 30px;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
 }
 
 .dict-select {
@@ -47,24 +43,24 @@ main {
 }
 
 .dict-select-prompt {
-    font-size: 18px;
-    padding: 10px 0px;
+    font-size: 1.125rem;
+    padding: 0.5rem 0;
 }
 
 #dict-input {
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 #dict-input::file-selector-button,
 #dict-confirm-btn {
     border: 1px solid gray;
-    border-radius: 10px;
-    font-size: 18px;
-    padding: 10px 30px;
+    border-radius: 0.625rem;
+    font-size: 1.125rem;
+    padding: 0.625rem 2rem;
 }
 
 #dict-input::file-selector-button {
-    margin-right: 10px;
+    margin-right: 0.625rem;
 }
 
 #dict-input::file-selector-button:hover,
@@ -76,32 +72,41 @@ main {
 }
 
 .dict-select-instructions {
-    margin-top: 15px;
-    font-size: 16px;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+.dict-select-instructions p,
+.dict-select-instructions li {
+    margin-top: 0.5rem;
 }
 
 .quiz {
     text-align: center;
     display: none;
-    margin-bottom: 30px;
+    margin-bottom: 2rem;
 }
 
 #word {
-    font-size: 60px;
+    font-size: 3.75rem;
+    margin: 2rem 0;
 }
 
 .choices {
     display: flex;
 }
 
+.choices button {
+    margin: 0 12%;
+}
+
 .choices button,
 #next-btn {
     border: 1px solid gray;
     flex: 1;
-    margin: 0px 100px;
-    padding: 20px;
-    font-size: 36px;
-    border-radius: 20px;
+    padding: 1.25rem;
+    font-size: 2.125rem;
+    border-radius: 1.25rem;
 }
 
 .choices button {
@@ -119,13 +124,12 @@ main {
 }
 
 .judge {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    font-size: 20px;
+    margin: 2rem 0;
+    font-size: 1.25rem;
 }
 
 #judge-definition {
-    margin-top: 15px;
+    margin-top: 1rem;
 }
 
 .next {
@@ -133,7 +137,7 @@ main {
 }
 
 #next-btn {
-    padding: 20px 100px
+    padding: 1.25rem 6rem;
 }
 
 #next-btn:hover {
@@ -164,21 +168,21 @@ main {
 
 #settings-btn {
     border: 1px solid gray;
-    border-radius: 10px;
-    font-size: 18px;
-    padding: 10px 20px;
-    width: 160px;
+    border-radius: 0.625rem;
+    font-size: 1.125rem;
+    padding: 0.625rem 1.25rem;
+    width: 10rem;
 }
 
 #settings-menu {
-    padding: 10px;
-    font-size: 16px;
+    padding: 0.625rem;
+    font-size: 1rem;
     display: none;
     flex: 1;
 }
 
 .stats-table {
-    margin-right: 20px;
+    margin-right: 1.25rem;
     border-collapse: collapse;
 }
 
@@ -186,11 +190,11 @@ main {
 .stats-table th,
 .stats-table td {
     border: 1px solid;
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 .stats-table th {
-    padding: 5px;
+    padding: 0.4rem;
 }
 
 .stats-table td {
@@ -210,9 +214,9 @@ main {
 footer {
     background-color: #e0e0f0;
     margin-top: auto;
-    font-size: 18px;
+    font-size: 1rem;
     text-align: center;
-    padding: 20px 0px;
+    padding: 1.25rem 0px;
 }
 
 footer a {
