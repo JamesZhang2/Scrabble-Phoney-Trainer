@@ -40,7 +40,12 @@ function readDict() {
         const dictFile = dictInput.files[0];
         const reader = new FileReader();
         reader.onload = () => {
+            // TODO: Doesn't work yet - still proceeds to quiz even if dict is empty
             dict = parseDict(reader.result.trim());
+            if (Object.keys(dict).length === 0) {
+                alert("Please select a valid dictionary file.");
+                return;
+            }
             nextQuiz();
         };
         reader.readAsText(dictFile);
@@ -53,7 +58,7 @@ function readDict() {
         const dictSelect = document.querySelector(".dict-select");
         dictSelect.style.display = "none";
     } else {
-        alert("Please select a valid dictionary file.")
+        alert("Please select a valid dictionary file.");
     }
 }
 
@@ -67,17 +72,17 @@ function readDict() {
 function parseDict(raw) {
     result = {};
     lines = raw.split("\n");
-    if (lines[0].includes("\t")) {
-        // Dictionary contains definitions
-        hasDef = true;
-        for (line of lines) {
-            wordDef = line.split("\t");
-            result[wordDef[0].trim()] = wordDef[1];
+    for (line of lines) {
+        if (line.trim() === "") {
+            continue;
         }
-    } else {
-        hasDef = false;
-        for (line of lines) {
-            result[line.trim()] = "";
+        if (line.includes("\t")) {
+            // Dictionary contains definitions
+            hasDef = true;
+            wordDef = line.split("\t");
+            result[wordDef[0].trim().toUpperCase()] = wordDef[1];
+        } else {
+            result[line.trim().toUpperCase()] = "";
         }
     }
     if (DEBUG) {

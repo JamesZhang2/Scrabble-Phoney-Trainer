@@ -11,7 +11,7 @@ body {
 .flex-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 p, h1 {
@@ -41,6 +41,11 @@ main {
     margin-bottom: 30px;
 }
 
+.dict-select {
+    width: fit-content;
+    margin: auto;
+}
+
 .dict-select-prompt {
     font-size: 18px;
     padding: 10px 0px;
@@ -68,6 +73,11 @@ main {
     background-color: #e6e6e6;
     transform: 0.1s;
     cursor: pointer;
+}
+
+.dict-select-instructions {
+    margin-top: 15px;
+    font-size: 16px;
 }
 
 .quiz {
