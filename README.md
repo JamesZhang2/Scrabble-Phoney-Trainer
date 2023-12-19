@@ -1,6 +1,8 @@
 # Scrabble Phoney Trainer
 
-This project is a tool to help you memorize short valid Scrabble words. After selecting a custom dictionary file, you will be presented with a word. You need to figure out if the word is a valid word or a phoney.
+![App Screenshot](screenshot.png)
+
+**Scrabble Phoney Trainer** is a tool to help you memorize short valid Scrabble words. After selecting a custom dictionary file, you will be presented with a word. You need to figure out if the word is a valid word or a phoney.
 
 The tool works best for two- and three-letter words because it's harder to generate plausible-looking phonies for longer words.
 
@@ -22,6 +24,7 @@ The following modes for generating phonies are currently supported:
 - Single: Pick a random valid word, and change one random letter of the word to another random letter. If the word happens to be valid, generate another one.
   - Example: `CAT -> CAU`
 - Single-VC: Pick a random valid word, and change one random letter of the word to another random letter. If the original letter was a vowel, it will be changed to a vowel. The same goes for consonants. If the word happens to be valid, generate another one.
+  - Example: `CAT -> CIT`
 
 ## Customizable Parameters
 
