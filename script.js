@@ -49,23 +49,22 @@ function readDict() {
         const dictFile = dictInput.files[0];
         const reader = new FileReader();
         reader.onload = () => {
-            // TODO: Doesn't work yet - still proceeds to quiz even if dict is empty
             dict = parseDict(reader.result.trim());
             if (Object.keys(dict).length === 0) {
                 alert("Please select a valid dictionary file.");
                 return;
             }
             nextQuiz();
+            // Show quiz and settings-stats div, hide dict-select div
+            const quiz = document.querySelector(".quiz");
+            quiz.style.display = "block";
+            const settingStats = document.querySelector(".settings-stats");
+            settingStats.style.display = "flex";
+            const dictSelect = document.querySelector(".dict-select");
+            dictSelect.style.display = "none";
         };
         reader.readAsText(dictFile);
 
-        // Show quiz and settings-stats div, hide dict-select div
-        const quiz = document.querySelector(".quiz");
-        quiz.style.display = "block";
-        const settingStats = document.querySelector(".settings-stats");
-        settingStats.style.display = "flex";
-        const dictSelect = document.querySelector(".dict-select");
-        dictSelect.style.display = "none";
     } else {
         alert("Please select a valid dictionary file.");
     }
