@@ -12,8 +12,6 @@ The tool works best for two- and three-letter words because it's harder to gener
 
 ## Supported Modes for Phoney Generation
 
-(*TODO*: Allow player to select a mode)
-
 The following modes for generating phonies are currently supported:
 
 - Random: Pick a random valid word, and generate a random word with the same number of characters. If the word happens to be valid, generate another one.
@@ -26,8 +24,6 @@ The following modes for generating phonies are currently supported:
 - Single-VC: Pick a random valid word, and change one random letter of the word to another random letter. If the original letter was a vowel, it will be changed to a vowel. The same goes for consonants. If the word happens to be valid, generate another one.
 
 ## Customizable Parameters
-
-(*TODO*: Allow player to change these parameters)
 
 - The parameter `validProb` specifies the probability that the next word is valid.
 - The parameter `reviewProb` specifies the probability that the next word is a review of your previous mistake (false positive or false negative). If the next word is going to be valid, you can only get a review question if you previously had at least one false negative. Similarly, if the next word is going to be invalid, you can only get a review question if you previously had at least one false positive. The probability that a word is drawn is proportional to the number of times you got it wrong, so you're more likely to review a word that you got wrong many times.
