@@ -2,106 +2,124 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrabble Phoney Trainer</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrabble Phoney Trainer</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="flex-container">
-        <header>
-            <p>Scrabble Phoney Trainer</p>
-        </header>
+  <div class="flex-container">
+    <header>
+      <p>Scrabble Phoney Trainer</p>
+    </header>
 
-        <main>
-            <div class="dict-select">
-                <p class="dict-select-prompt">Select your dictionary file:</p>
-                <input type="file" id="dict-input" />
-                <button id="dict-confirm-btn">Confirm</button>
-                <div class="dict-select-instructions">
-                    <p>
-                        Instructions:
-                    </p>
-                    <ul>
-                        <li>
-                            To use a dictionary file with just words and no definitions, put one word on every line.
-                        </li>
-                        <li>
-                            To use a dictionary file with both words and definitions, put one word-definition pair on
-                            every
-                            line, where the word and the definition are separated by a tab.
-                        </li>
-                        <li>
-                            You can export a list from a Zyzzyva search using
-                            <code> Right click -> Save list... -> Format: One Word Per Line -> OK </code>
-                            and the list will be in the correct format for this application.
-                        </li>
-                    </ul>
-                </div>
+    <main>
+      <div class="dict-select">
+        <p class="dict-select-prompt">Select your dictionary file:</p>
+        <input type="file" id="dict-input" />
+        <button id="dict-confirm-btn">Confirm</button>
+        <div class="dict-select-instructions">
+          <p>
+            Instructions:
+          </p>
+          <ul>
+            <li>
+              To use a dictionary file with just words and no definitions, put one word on every line.
+            </li>
+            <li>
+              To use a dictionary file with both words and definitions, put one word-definition pair on
+              every
+              line, where the word and the definition are separated by a tab.
+            </li>
+            <li>
+              You can export a list from a Zyzzyva search using
+              <code> Right click -> Save list... -> Format: One Word Per Line -> OK </code>
+              and the list will be in the correct format for this application.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <h1 class="question">Is this a valid word?</h1>
+        <h1 id="word">WORD</h1>
+        <div class="choices">
+          <div class="choice-container">
+            <button id="yes-btn">YES</button>
+            <p class="shortcut-hint">(Left Arrow)</p>
+          </div>
+          <div class="choice-container">
+            <button id="no-btn">NO</button>
+            <p class="shortcut-hint">(Right Arrow)</p>
+          </div>
+        </div>
+        <div class="judge">
+          <p id="judge-correctness"></p>
+          <p id="judge-definition"></p>
+        </div>
+        <div class="next">
+          <button id="next-btn">Next</button>
+          <p class="shortcut-hint">(Down Arrow or Space Bar)</p>
+        </div>
+      </div>
+
+      <div class="settings-stats">
+        <div class="settings">
+          <button id="settings-btn">Show Settings</button>
+          <div id="settings-menu">
+            <div class="settings-element"><label for="valid-prob">Probability of valid word:</label><input type="number"
+                id="valid-prob"></div>
+            <div class="settings-element"><label for="review-prob">Probability of review:</label><input type="number"
+                id="review-prob">
             </div>
-
-            <div class="quiz">
-                <h1 class="question">Is this a valid word?</h1>
-                <h1 id="word">WORD</h1>
-                <div class="choices">
-                    <div class="choice-container">
-                        <button id="yes-btn">YES</button>
-                        <p class="shortcut-hint">(Left Arrow)</p>
-                    </div>
-                    <div class="choice-container">
-                        <button id="no-btn">NO</button>
-                        <p class="shortcut-hint">(Right Arrow)</p>
-                    </div>
+            <div>
+              <fieldset class="phoney-mode-fieldset settings-element">
+                <legend>Mode for phoney generation:</legend>
+                <div><input type="radio" name="phoney-mode" value="random"><label for="random">Random</label></div>
+                <div><input type="radio" name="phoney-mode" value="random-vc"><label for="random-vc">Random-VC</label>
                 </div>
-                <div class="judge">
-                    <p id="judge-correctness"></p>
-                    <p id="judge-definition"></p>
-                </div>
-                <div class="next">
-                    <button id="next-btn">Next</button>
-                    <p class="shortcut-hint">(Down Arrow or Space Bar)</p>
-                </div>
+                <div><input type="radio" name="phoney-mode" value="single"><label for="single">Single</label></div>
+                <div><input type="radio" name="phoney-mode" value="single-vc" checked><label
+                    for="single-vc">Single-VC</label></div>
+              </fieldset>
+              <button id="settings-confirm-btn">Confirm</button>
             </div>
+          </div>
+        </div>
+        <div class="stats">
+          <table class="stats-table">
+            <tr>
+              <td></td>
+              <th>Correct</th>
+              <th>Incorrect</th>
+            </tr>
+            <tr>
+              <th>Valid</th>
+              <td id="true-pos">0</td>
+              <td id="false-neg">0</td>
+            </tr>
+            <tr>
+              <th>Invalid</th>
+              <td id="true-neg">0</td>
+              <td id="false-pos">0</td>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <td id="total-correct">0</td>
+              <td id="total-incorrect">0</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </main>
 
-            <div class="settings-stats">
-                <div class="settings">
-                    <button id="settings-btn">Show Settings</button>
-                    <div id="settings-menu">Settings</div>
-                </div>
-                <div class="stats">
-                    <table class="stats-table">
-                        <tr>
-                            <td></td>
-                            <th>Correct</th>
-                            <th>Incorrect</th>
-                        </tr>
-                        <tr>
-                            <th>Valid</th>
-                            <td id="true-pos">0</td>
-                            <td id="false-neg">0</td>
-                        </tr>
-                        <tr>
-                            <th>Invalid</th>
-                            <td id="true-neg">0</td>
-                            <td id="false-pos">0</td>
-                        </tr>
-                        <tr>
-                            <th>Total</th>
-                            <td id="total-correct">0</td>
-                            <td id="total-incorrect">0</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </main>
+    <footer>
+      <a href="https://github.com/JamesZhang2/Scrabble-Phoney-Trainer">Open this project on GitHub</a>
+    </footer>
+  </div>
 
-        <footer>
-            <a href="https://github.com/JamesZhang2/Scrabble-Phoney-Trainer">Open this project on GitHub</a>
-        </footer>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 
 </html>

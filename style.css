@@ -65,7 +65,8 @@ main {
 
 #dict-input::file-selector-button:hover,
 #dict-confirm-btn:hover,
-#settings-btn:hover {
+#settings-btn:hover,
+#settings-confirm-btn:hover {
     background-color: #e6e6e6;
     transform: 0.1s;
     cursor: pointer;
@@ -156,6 +157,7 @@ main {
 }
 
 .settings-stats {
+    margin: 0 1rem;
     display: none;  /* will be set to flex */
     flex-direction: row;
     justify-content: space-between;
@@ -181,6 +183,21 @@ main {
     font-size: 1rem;
     display: none;
     flex: 1;
+}
+
+.settings-element {
+    margin-bottom: 0.5rem;
+}
+
+#settings-confirm-btn {
+    margin-top: 0.25rem;
+    padding: 0.25rem 1rem;
+    border: 1px solid gray; 
+    border-radius: 0.5rem;
+}
+
+.phoney-mode-fieldset {
+    width: 20rem;
 }
 
 .stats-table {

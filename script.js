@@ -1,18 +1,23 @@
-const DEBUG = true;
+const DEBUG = false;
 const vowels = "AEIOU";
 const consonants = "BCDFGHJKLMNPQRSTVWXYZ";
 const letters = vowels + consonants;
 let dict = {};
 let hasDef = false;  // whether the dictionary contains definitions
 let validProb = 0.5;
-let mode = "single-vc";  // mode for generating phonies
-let reviewProb = 0.3;
+let reviewProb = 0.25;
+let phoneyMode = "single-vc";  // mode for generating phonies
 let showSettings = false;
 
 let truePos = 0, trueNeg = 0, falsePos = 0, falseNeg = 0;
 let falsePosWords = [];
 let falseNegWords = [];
 let curWord = "";
+
+const validProbBox = document.querySelector("#valid-prob");
+validProbBox.value = validProb;
+const reviewProbBox = document.querySelector("#review-prob");
+reviewProbBox.value = reviewProb;
 
 // Buttons and event listeners
 
@@ -21,11 +26,13 @@ const yesBtn = document.querySelector("#yes-btn");
 const noBtn = document.querySelector("#no-btn");
 const nextBtn = document.querySelector("#next-btn");
 const settingsBtn = document.querySelector("#settings-btn");
+const settingsConfirmBtn = document.querySelector("#settings-confirm-btn");
 dictConfirmBtn.addEventListener("click", () => readDict());
 yesBtn.addEventListener("click", () => select(true));
 noBtn.addEventListener("click", () => select(false));
 nextBtn.addEventListener("click", () => nextQuiz());
 settingsBtn.addEventListener("click", () => toggleSettings());
+settingsConfirmBtn.addEventListener("click", () => confirmSettings());
 
 const wordDOM = document.querySelector("#word");
 const judgeCorrectness = document.querySelector("#judge-correctness");
@@ -263,7 +270,7 @@ function getInvalidWord(validWord) {
     const len = validWord.length;
     let s = "";
     let idx;
-    switch (mode) {
+    switch (phoneyMode) {
         case "random":
             for (let i = 0; i < len; i++) {
                 s += getRandomLetter();
@@ -320,13 +327,44 @@ function toggleSettings() {
 function handleKeyDown(event) {
     const quiz = document.querySelector(".quiz");
     if (quiz.style.display !== "none") {
-        if (event.code === "ArrowLeft") {
+        if (event.code === "ArrowLeft" && !yesBtn.disabled) {
             select(true);
-        } else if (event.code === "ArrowRight") {
+        } else if (event.code === "ArrowRight" && !noBtn.disabled) {
             select(false);
-        } else if (event.code === "ArrowDown" || event.code === "Space") {
+        } else if ((event.code === "ArrowDown" || event.code === "Space") && !nextBtn.disabled) {
             event.preventDefault()  // Prevents scrolling down
             nextQuiz();
         }
     }
+}
+
+function confirmSettings() {
+    const validProbInput = document.querySelector("#valid-prob").value;
+    const reviewProbInput = document.querySelector("#review-prob").value;
+    const phoneyModeInput = document.querySelector(".phoney-mode-fieldset input[type='radio']:checked").value;
+    if (DEBUG) {
+        console.log(`validProbInput: ${validProbInput}`);
+        console.log(`reviewProbInput: ${reviewProbInput}`);
+        console.log(`phoneyModeInput: ${phoneyModeInput}`);
+    }
+    
+    // Validation
+    if (validProbInput < 0 || validProbInput > 1) {
+        alert("Please enter a value between 0 and 1 for probability of valid word.");
+        // Reset to previous valid value
+        validProbBox.value = validProb;
+        reviewProbBox.value = reviewProb;
+        return;
+    }
+    if (reviewProbInput < 0 || reviewProbInput > 1) {
+        alert("Please enter a value between 0 and 1 for probability of review.");
+        // Reset to previous valid value
+        validProbBox.value = validProb;
+        reviewProbBox.value = reviewProb;
+        return;
+    }
+    
+    validProb = validProbInput;
+    reviewProb = reviewProbInput;
+    phoneyMode = phoneyModeInput;
 }

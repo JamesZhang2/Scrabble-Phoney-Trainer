@@ -6,11 +6,9 @@ The tool works best for two- and three-letter words because it's harder to gener
 
 ## Format for Dictionary File
 
-To use a dictionary file with just words and no definitions, put one word on every line.
-
-To use a dictionary file with both words and definitions, put one word-definition pair on every line, where the word and the definition are separated by a tab.
-
-You can export a list from a Zyzzyva search using `Right click -> Save list... -> Format: One Word Per Line -> OK` and the list will be in the correct format for this application. 
+- To use a dictionary file with just words and no definitions, put one word on every line.
+- To use a dictionary file with both words and definitions, put one word-definition pair on every line, where the word and the definition are separated by a tab.
+- You can export a list from a Zyzzyva search using `Right click -> Save list... -> Format: One Word Per Line -> OK` and the list will be in the correct format for this application. 
 
 ## Supported Modes for Phoney Generation
 
@@ -21,7 +19,7 @@ The following modes for generating phonies are currently supported:
 - Random: Pick a random valid word, and generate a random word with the same number of characters. If the word happens to be valid, generate another one.
   - Example: `CAT -> EWM`
   - This mode should be the easiest since most random string of characters and not valid words.
-- Random-VC: Pick a random valid word, and generate a random word with the same number of characters. If the `i`th letter of the valid word is a vowel, then so is the ith letter of the random word. The same goes for consonants. If the word happens to be valid, generate another one.
+- Random-VC: Pick a random valid word, and generate a random word with the same number of characters. If the `i`th letter of the valid word is a vowel, then so is the `i`th letter of the random word. The same goes for consonants. If the word happens to be valid, generate another one.
   - Example: `CAT -> LIK`
 - Single: Pick a random valid word, and change one random letter of the word to another random letter. If the word happens to be valid, generate another one.
   - Example: `CAT -> CAU`
